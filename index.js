@@ -85,12 +85,112 @@ const person3 = {}
 Object.defineProperty(person3, '_name', {
   value: 'Anna',
   writable: false,
+  configurable: false,
+  enumerable: true,// Когда ты создаешь объект через Object.defineProperty, то те свойста которые ты явно не прописал будут иметь значение по умолчанию, и флаг enumerable установлен по умолчанию в false, поэтому ты и не видишь ничего в цикле, поэтому нужно установить enumerable: true
 })
 
 console.log(person3)
-// EXAMINATION
+
 for (const el in person3) {
   console.log(person3[el])
 }
 // person3._name = 'Olga' будет ошибка так как использовали writable: false при таком условии значение изменить нельзя
 // delete(person3._name) та же история что в прошлом действии Cannot delete property '_name' of #<Object>
+
+// 11
+const car = {
+  brand: 'Toyota',
+}
+
+Object.defineProperty(car, 'secretCode', {
+  value: '12345',
+  writable: true,
+  configurable: true,
+  enumerable: false,
+}) 
+
+for (const el in car) {
+  console.log(el)
+}
+console.log(Object.keys(car))
+console.log(car.secretCode)
+
+// 12
+const user3 = {
+  firstName: 'Ivan',
+  lastName: 'Petrov',
+}
+
+Object.defineProperty(user3, 'fullName', {
+  get() {
+    return this.firstName + ' ' + this.lastName
+  },
+  enumerable: true,
+  configurable: true,
+})
+
+console.log(user3.fullName)
+
+// 13
+const counter = {
+  _value: 0,
+}
+
+Object.defineProperty(counter, 'count', {
+  get() {
+    const newValue = this._value
+    this._value++
+    return newValue
+  },
+})
+
+console.log(counter.count)
+console.log(counter.count)
+console.log(counter.count)
+
+// 14
+const book = {}
+Object.defineProperties(book, {
+  title: {
+    value: 'Поход',
+    writable: false,
+    configurable: false,
+    enumerable: true,
+  },
+  author: {
+    value: 'Розенбаум А. Я.',
+    writable: false,
+    configurable: false,
+    enumerable: false,
+  },
+  year: {
+    value:  2025,
+  }
+})
+
+console.log(book)
+
+// 15
+const user5 = {
+  name: 'Alice',
+  age: 25,
+  city: 'Moscow',
+}
+
+for (const el in user5) {
+  console.log(`Ключ: ${el}, Значение: ${user[el]}`)
+}
+
+// 16
+const user6 = {
+  name: 'Alice',
+  age: 25,
+  hobbies: ['reading', 'coding'],
+  addres: {
+    city: 'Berlin',
+    street: 'Main St',
+  }
+}
+
+const clone = structuredClone(user6)
+console.log(clone)
